@@ -64,18 +64,6 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-mutiny</artifactId>
   </dependency>    
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-spring-di</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-spring-web</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-spring-boot-properties</artifactId>
-    </dependency>
   </dependencies>
   <build>
     <plugins>
