@@ -16,10 +16,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+@Path("/")
+@Produces(MediaType.APPLICATION_JSON)
 @RequestScoped
 public class QuoteReactiveController {
     private static final Logger log = LoggerFactory.getLogger(QuoteReactiveController.class);
-    private static final int DELAY_PER_ITEM_MS = 1;
 
     @Inject
     QuoteMongoReactiveRepository quoteMongoReactiveRepository;
@@ -28,8 +29,8 @@ public class QuoteReactiveController {
      * Get all the documents the reactive way
      * @return
      */
-    @GET()
-    @Path("/quotes-reactive")
+    @GET
+    @Path("quotes-reactive")
     @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
     public Multi<Quote> getQuoteMulti() {
@@ -44,8 +45,8 @@ public class QuoteReactiveController {
      * @return
      */
 
-    @GET()
-    @Path("/quotes-reactive-paged")
+    @GET
+    @Path("quotes-reactive-paged")
     @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
     public Multi<Quote> getQuoteMultiPaged(
