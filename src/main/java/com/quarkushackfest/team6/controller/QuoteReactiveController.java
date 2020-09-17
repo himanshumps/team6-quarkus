@@ -26,7 +26,7 @@ public class QuoteReactiveController {
     QuoteMongoReactiveRepository quoteMongoReactiveRepository;
 
     /**
-     * Get all the documents the reactive way
+     * Get all the documents using the reactive api
      * @return
      */
     @GET
@@ -41,10 +41,9 @@ public class QuoteReactiveController {
     }
 
     /**
-     * Get all the documents the reactive way in a paginated fashion
+     * Get all the documents using the reactive api in a paginated fashion
      * @return
      */
-
     @GET
     @Path("quotes-reactive-paged")
     @PermitAll

@@ -4,28 +4,46 @@ import com.quarkushackfest.team6.domain.Quote;
 import com.quarkushackfest.team6.repository.QuoteMongoBlockingRepository;
 import io.quarkus.mongodb.panache.PanacheQuery;
 import io.quarkus.panache.common.Page;
-import javax.inject.Inject;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+import javax.annotation.security.PermitAll;
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+
+@Path("/")
+@Produces(MediaType.APPLICATION_JSON)
 public class QuoteBlockingController {
 
-  private static final int DELAY_PER_ITEM_MS = 100;
+    @Inject
+    QuoteMongoBlockingRepository quoteMongoBlockingRepository;
 
-  @Inject 
-  QuoteMongoBlockingRepository quoteMongoBlockingRepository;
+    /**
+     * Get all the documents using blocking api call
+     * @return
+     */
+    @GET
+    @Path("quotes-blocking")
+    @PermitAll
+    @Produces(MediaType.APPLICATION_JSON)
+    public Iterable<Quote> getQuotesBlocking() throws Exception {
+        return quoteMongoBlockingRepository.findAll().list();
+    }
 
-  @GetMapping("/quotes-blocking")
-  public Iterable<Quote> getQuotesBlocking() throws Exception {
-    return quoteMongoBlockingRepository.findAll().list();
-  }
-
-  @GetMapping("/quotes-blocking-paged")
-  public PanacheQuery<Quote> getQuotesBlocking(
-      final @RequestParam(name = "page") int page, final @RequestParam(name = "size") int size)
-      throws Exception {
-    return quoteMongoBlockingRepository.findAllByIdNotNullOrderByIdAsc(Page.of(page, size));
-  }
+    /**
+     * Get all the documents in pages using blocking api call
+     * @return
+     */
+    @GET
+    @Path("quotes-blocking-paged")
+    @PermitAll
+    @Produces(MediaType.APPLICATION_JSON)
+    public PanacheQuery<Quote> getQuotesBlocking(
+            final @QueryParam("page") int page,
+            final @QueryParam("size") int size
+    ) throws Exception {
+        return quoteMongoBlockingRepository.findAllByIdNotNullOrderByIdAsc(Page.of(page, size));
+    }
 }
