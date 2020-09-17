@@ -38,8 +38,13 @@ public class QuoteDataLoader {
                     .filter(l -> !l.trim().isEmpty())
                     .map(l -> {
                         log.info("Going to insert: {}", l);
-                        return quoteMongoReactiveRepository.persist(
-                                new Quote(idSupplier.get(), "El Quijote - " + UUID.randomUUID().toString(), l)).await().indefinitely();
+                        try{
+                            quoteMongoReactiveRepository.persist(
+                                    new Quote(idSupplier.get(), "El Quijote - " + UUID.randomUUID().toString(), l)).await().indefinitely();
+                        } catch(Exception e){
+                            e.printStackTrace();
+                        }
+                        return "";
                     })
                     .collect(Collectors.toList());
             try {
