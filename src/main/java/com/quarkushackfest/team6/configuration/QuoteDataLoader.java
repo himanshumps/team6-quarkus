@@ -22,7 +22,9 @@ public class QuoteDataLoader {
   @Inject QuoteMongoReactiveRepository quoteMongoReactiveRepository;
 
   void run(@Observes StartupEvent ev) {
+    log.info("Starting the application ...");
     // If there is no data in the database
+
     if (quoteMongoReactiveRepository.count().await().asOptional().indefinitely().get() == 0L) {
       var idSupplier = getIdSequenceSupplier();
       var bufferedReader =
@@ -39,6 +41,8 @@ public class QuoteDataLoader {
                               new Quote(idSupplier.get(), "El Quijote - " + UUID.randomUUID().toString(), l)))).subscribe();
       // .subscribe(m -> log.info("New quote loaded: {}", m.block()));
       log.info("Repository contains now {} entries.", quoteMongoReactiveRepository.count().await());
+    } else {
+      log.info("Data was already loaded in the database.");
     }
   }
 
