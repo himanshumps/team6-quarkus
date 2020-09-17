@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.UUID;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class QuoteDataLoader {
@@ -39,7 +40,8 @@ public class QuoteDataLoader {
                         log.info("Going to insert: {}", l);
                         return quoteMongoReactiveRepository.persist(
                                 new Quote(idSupplier.get(), "El Quijote - " + UUID.randomUUID().toString(), l)).await().indefinitely();
-                    });
+                    })
+                    .collect(Collectors.toList());
             try {
                 bufferedReader.close();
             } catch (IOException e) {
