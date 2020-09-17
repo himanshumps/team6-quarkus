@@ -14,11 +14,11 @@ public class QuoteBlockingController {
 
   private static final int DELAY_PER_ITEM_MS = 100;
 
-  @Inject QuoteMongoBlockingRepository quoteMongoBlockingRepository;
+  @Inject 
+  QuoteMongoBlockingRepository quoteMongoBlockingRepository;
 
   @GetMapping("/quotes-blocking")
   public Iterable<Quote> getQuotesBlocking() throws Exception {
-    Thread.sleep(DELAY_PER_ITEM_MS * quoteMongoBlockingRepository.count());
     return quoteMongoBlockingRepository.findAll().list();
   }
 
@@ -26,7 +26,6 @@ public class QuoteBlockingController {
   public PanacheQuery<Quote> getQuotesBlocking(
       final @RequestParam(name = "page") int page, final @RequestParam(name = "size") int size)
       throws Exception {
-    Thread.sleep(DELAY_PER_ITEM_MS * size);
     return quoteMongoBlockingRepository.findAllByIdNotNullOrderByIdAsc(Page.of(page, size));
   }
 }
