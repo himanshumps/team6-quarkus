@@ -62,7 +62,6 @@ public class QuoteDataLoader {
                             .collect(Collectors.toList()
                             )
             ).await().indefinitely();
-
             log.info("Repository contains now {} entries.", quoteMongoReactiveRepository.count().await().indefinitely().intValue());
         } else {
             log.info("Data is already loaded in the database.");
