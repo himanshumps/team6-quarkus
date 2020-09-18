@@ -1,13 +1,13 @@
 ## Stage 1 : build with maven builder image with native capabilities
 FROM quay.io/quarkus/ubi-quarkus-mandrel:20.1.0.2.Final-java11 AS build
 COPY pom.xml /usr/src/app/
-COPY mvnw .
-RUN chmod 777 mvnw && mvnw -f /usr/src/app/pom.xml -B de.qaware.maven:go-offline-maven-plugin:1.2.5:resolve-dependencies
+COPY mvnw /usr/src/app/
+RUN chmod 777 /usr/src/app/mvnw && /usr/src/app/mvnw -f /usr/src/app/pom.xml -B de.qaware.maven:go-offline-maven-plugin:1.2.5:resolve-dependencies
 COPY src /usr/src/app/src
 USER root
 RUN chown -R quarkus /usr/src/app
 USER quarkus
-RUN mvnw -f /usr/src/app/pom.xml -Pnative clean package
+RUN /usr/src/app/ -f /usr/src/app/pom.xml -Pnative clean package
 
 ## Stage 2 : create the docker final image
 FROM registry.access.redhat.com/ubi8/ubi-minimal
