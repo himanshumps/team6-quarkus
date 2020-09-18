@@ -3,42 +3,52 @@ package com.quarkushackfest.team6.domain;
 import java.util.Objects;
 
 public class Quote {
-    private String bookId;
-    private String book;
-    private String content;
+    private String movieId;
+    private String movie;
+    private String plot;
 
     public Quote() {
 
     }
 
-    public Quote(String bookId, String book, String content) {
-        this.bookId = bookId;
-        this.book = book;
-        this.content = content;
+    public Quote(String movieId, String movie, String plot) {
+        this.movieId = movieId;
+        this.movie = movie;
+        this.plot = plot;
     }
 
-    public String getBookId() {
-        return bookId;
+    public String getMovieId() {
+        return movieId;
     }
 
-    public void setBookId(String bookId) {
-        this.bookId = bookId;
+    public void setMovieId(String movieId) {
+        this.movieId = movieId;
     }
 
-    public String getBook() {
-        return book;
+    public String getMovie() {
+        return movie;
     }
 
-    public void setBook(String book) {
-        this.book = book;
+    public void setMovie(String movie) {
+        this.movie = movie;
     }
 
-    public String getContent() {
-        return content;
+    public String getPlot() {
+        return plot;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setPlot(String plot) {
+        this.plot = plot;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Quote{");
+        sb.append("movieId='").append(movieId).append('\'');
+        sb.append(", movie='").append(movie).append('\'');
+        sb.append(", plot='").append(plot).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 
     @Override
@@ -46,22 +56,13 @@ public class Quote {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Quote quote = (Quote) o;
-        return Objects.equals(bookId, quote.bookId) &&
-                Objects.equals(book, quote.book) &&
-                Objects.equals(content, quote.content);
+        return Objects.equals(movieId, quote.movieId) &&
+                Objects.equals(movie, quote.movie) &&
+                Objects.equals(plot, quote.plot);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bookId, book, content);
-    }
-
-    @Override
-    public String toString() {
-        return "Quote{" +
-                "bookId='" + bookId + '\'' +
-                ", book='" + book + '\'' +
-                ", content='" + content + '\'' +
-                '}';
+        return Objects.hash(movieId, movie, plot);
     }
 }

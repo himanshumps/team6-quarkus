@@ -12,6 +12,6 @@ import javax.enterprise.context.ApplicationScoped;
 public class QuoteMongoBlockingRepository implements PanacheMongoRepository<Quote> {
 
     public PanacheQuery<Quote> findAllByIdNotNullOrderByIdAsc(Page page) {
-        return find("bookId is not null", Sort.ascending("id"));
+        return find("movieId is not null", Sort.ascending("movieId"));
     }
 }
