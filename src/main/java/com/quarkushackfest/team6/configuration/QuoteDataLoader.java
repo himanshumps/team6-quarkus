@@ -28,7 +28,6 @@ public class QuoteDataLoader {
 
     void run(@Observes StartupEvent ev) {
         log.info("Starting the application ...");
-        log.info("Quote count: {}", quoteMongoReactiveRepository.count().await().indefinitely().intValue());
         // If there is no data in the database
         if (quoteMongoReactiveRepository.count().await().indefinitely().intValue() == 0) {
             var idSupplier = getIdSequenceSupplier();
