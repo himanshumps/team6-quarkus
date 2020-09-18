@@ -56,7 +56,10 @@ public class QuoteDataLoader {
                     new JsonArray(
                             stringBuilder.toString())
                             .stream()
-                            .map(jsonObject -> new Quote(idSupplier.get(), ((JsonObject)jsonObject).getString("Title"), ((JsonObject)jsonObject).getString("Plot")))
+                            .map(jsonObject -> {
+                                log.info("Got object: {}", ((JsonObject)jsonObject).encode());
+                                return new Quote(idSupplier.get(), ((JsonObject)jsonObject).getString("Title"), ((JsonObject)jsonObject).getString("Plot"))
+                            })
                             .collect(Collectors.toList()
                             )
             ).await().indefinitely();
