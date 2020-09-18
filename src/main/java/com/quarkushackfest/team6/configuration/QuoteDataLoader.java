@@ -3,6 +3,7 @@ package com.quarkushackfest.team6.configuration;
 import com.quarkushackfest.team6.domain.Quote;
 import com.quarkushackfest.team6.repository.QuoteMongoReactiveRepository;
 import io.quarkus.runtime.StartupEvent;
+import io.smallrye.mutiny.Multi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,18 +34,13 @@ public class QuoteDataLoader {
             var bufferedReader =
                     new BufferedReader(
                             new InputStreamReader(getClass().getClassLoader().getResourceAsStream("pg2000.txt")));
+
             bufferedReader
                     .lines()
                     .filter(l -> !l.trim().isEmpty())
                     .map(l -> {
                         log.info("Going to insert: {}", l);
-                        try{
-                            quoteMongoReactiveRepository.persist(
-                                    new Quote(idSupplier.get(), "El Quijote - " + UUID.randomUUID().toString(), l)).await().indefinitely();
-                        } catch(Exception e){
-                            e.printStackTrace();
-                        }
-                        return "";
+                        return new Quote(idSupplier.get(), "El Quijote", l).persist();
                     })
                     .collect(Collectors.toList());
             try {
