@@ -40,7 +40,7 @@ public class QuoteDataLoader {
                     .filter(l -> !l.trim().isEmpty())
                     .map(l -> {
                         log.info("Going to insert: {}", l);
-                        return new Quote(idSupplier.get(), "El Quijote", l).persist();
+                        return new Quote(idSupplier.get(), "El Quijote", l).persist().await().indefinitely();
                     })
                     .collect(Collectors.toList());
             try {
