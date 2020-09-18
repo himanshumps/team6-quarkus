@@ -4,3 +4,5 @@
 !target/lib/*
 !target/quarkus-app/*
 !pom.xml
+!src/*
+!src
