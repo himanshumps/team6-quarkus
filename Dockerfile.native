@@ -1,6 +1,8 @@
 ## Stage 1 : build with maven builder image with native capabilities
 FROM quay.io/quarkus/ubi-quarkus-mandrel:20.1-java11 AS build
+USER root
 RUN microdnf install maven
+USER quarkus
 COPY pom.xml /usr/src/app/
 RUN chmod -R 777 /usr/src/app/ && mvn -f /usr/src/app/pom.xml -B de.qaware.maven:go-offline-maven-plugin:1.2.5:resolve-dependencies
 COPY src /usr/src/app/src
