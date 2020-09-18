@@ -58,7 +58,7 @@ public class QuoteDataLoader {
                             .stream()
                             .map(jsonObject -> {
                                 //log.info("Got object: {}", ((JsonObject)jsonObject).encode());
-                                return new Quote(idSupplier.get(), ((JsonObject)jsonObject).getString("Title"), ((JsonObject)jsonObject).getString("Plot"));
+                                return new Quote(idSupplier.get(), ((JsonObject)jsonObject).getValue("Title").toString(), ((JsonObject)jsonObject).getValue("Plot").toString());
                             })
                             .collect(Collectors.toList()
                             )
