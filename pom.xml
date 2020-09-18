@@ -63,7 +63,11 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-mutiny</artifactId>
-  </dependency>    
+  </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-jackson</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
