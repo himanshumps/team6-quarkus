@@ -33,7 +33,7 @@ public class QuoteReactiveController {
     @GET
     @Path("quotes-reactive")
     @PermitAll
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.SERVER_SENT_EVENTS)
     public Multi<Quote> getQuoteMulti() {
         log.info("Serving the request for getQuoteMulti");
         return quoteMongoReactiveRepository
@@ -49,7 +49,7 @@ public class QuoteReactiveController {
     @GET
     @Path("quotes-reactive-paged")
     @PermitAll
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.SERVER_SENT_EVENTS)
     public Multi<Quote> getQuoteMultiPaged(
             final @QueryParam("page") int page,
             final @QueryParam("size") int size) {
