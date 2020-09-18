@@ -3,7 +3,7 @@ package com.quarkushackfest.team6.domain;
 import java.util.Objects;
 
 public class Quote {
-    private String id;
+    private String bookId;
     private String book;
     private String content;
 
@@ -11,18 +11,18 @@ public class Quote {
 
     }
 
-    public Quote(String id, String book, String content) {
-        this.id = id;
+    public Quote(String bookId, String book, String content) {
+        this.bookId = bookId;
         this.book = book;
         this.content = content;
     }
 
-    public String getId() {
-        return id;
+    public String getBookId() {
+        return bookId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
     }
 
     public String getBook() {
@@ -46,20 +46,20 @@ public class Quote {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Quote quote = (Quote) o;
-        return Objects.equals(id, quote.id) &&
+        return Objects.equals(bookId, quote.bookId) &&
                 Objects.equals(book, quote.book) &&
                 Objects.equals(content, quote.content);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, book, content);
+        return Objects.hash(bookId, book, content);
     }
 
     @Override
     public String toString() {
         return "Quote{" +
-                "id='" + id + '\'' +
+                "bookId='" + bookId + '\'' +
                 ", book='" + book + '\'' +
                 ", content='" + content + '\'' +
                 '}';

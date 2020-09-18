@@ -11,6 +11,6 @@ import javax.enterprise.context.ApplicationScoped;
 public class QuoteMongoReactiveRepository implements ReactivePanacheMongoRepository<Quote> {
 
     public ReactivePanacheQuery<Quote> findAllByIdNotNullOrderByIdAsc() {
-        return find("id is not null", Sort.ascending("id"), true);
+        return find("bookId is not null", Sort.ascending("id"));
     }
 }
