@@ -4,7 +4,7 @@ import io.quarkus.mongodb.panache.MongoEntity;
 import io.quarkus.mongodb.panache.reactive.ReactivePanacheMongoEntity;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
-@MongoEntity
+@MongoEntity(collection = "Quote")
 public class Quote extends ReactivePanacheMongoEntity {
     @BsonProperty("bookId")
     private String id;
