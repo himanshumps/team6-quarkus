@@ -13,6 +13,8 @@ import javax.inject.Inject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -27,22 +29,21 @@ public class QuoteDataLoader {
 
     void run(@Observes StartupEvent ev) {
         log.info("Starting the application ...");
+        log.info("Quote count: {}", quoteMongoReactiveRepository.count().await().indefinitely().intValue());
         // If there is no data in the database
-        log.info("quoteMongoReactiveRepository.count().await().indefinitely().intValue(): {}", quoteMongoReactiveRepository.count().await().indefinitely().intValue());
         if (quoteMongoReactiveRepository.count().await().indefinitely().intValue() == 0) {
             var idSupplier = getIdSequenceSupplier();
             var bufferedReader =
                     new BufferedReader(
                             new InputStreamReader(getClass().getClassLoader().getResourceAsStream("pg2000.txt")));
-
             bufferedReader
                     .lines()
                     .filter(l -> !l.trim().isEmpty())
-                    .map(l -> {
-                        log.info("Going to insert: {}", l);
-                        return new Quote(idSupplier.get(), "El Quijote", l).persist().await().indefinitely();
+                    .flatMap(l -> {
+                        new Quote(idSupplier.get(), "El Quijote", l).persist().await().indefinitely();
+                        return Arrays.asList("success").stream();
                     })
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toList())
             try {
                 bufferedReader.close();
             } catch (IOException e) {
@@ -50,14 +51,13 @@ public class QuoteDataLoader {
             }
             log.info("Repository contains now {} entries.", quoteMongoReactiveRepository.count().await().indefinitely().intValue());
         } else {
-            log.info("Data was already loaded in the database.");
+            log.info("Data is already loaded in the database.");
         }
     }
 
     private Supplier<String> getIdSequenceSupplier() {
         return new Supplier<>() {
             Long l = 0L;
-
             @Override
             public String get() {
                 // adds padding zeroes
