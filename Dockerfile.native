@@ -2,7 +2,8 @@
 FROM quay.io/quarkus/ubi-quarkus-mandrel:20.1-java11 AS build
 COPY pom.xml /usr/src/app/
 COPY mvnw /usr/src/app/
-RUN chmod 777 /usr/src/app/mvnw && /usr/src/app/mvnw -f /usr/src/app/pom.xml -B de.qaware.maven:go-offline-maven-plugin:1.2.5:resolve-dependencies
+COPY .mvn /usr/src/app/.mvn
+RUN chmod -R 777 /usr/src/app/ && /usr/src/app/mvnw -f /usr/src/app/pom.xml -B de.qaware.maven:go-offline-maven-plugin:1.2.5:resolve-dependencies
 COPY src /usr/src/app/src
 USER root
 RUN chown -R quarkus /usr/src/app
