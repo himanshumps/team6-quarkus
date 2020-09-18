@@ -27,6 +27,7 @@ public class QuoteReactiveController {
 
     /**
      * Get all the documents using the reactive api
+     *
      * @return
      */
     @GET
@@ -42,6 +43,7 @@ public class QuoteReactiveController {
 
     /**
      * Get all the documents using the reactive api in a paginated fashion
+     *
      * @return
      */
     @GET

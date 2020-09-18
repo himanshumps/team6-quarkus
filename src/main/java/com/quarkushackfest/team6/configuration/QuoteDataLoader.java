@@ -3,7 +3,6 @@ package com.quarkushackfest.team6.configuration;
 import com.quarkushackfest.team6.domain.Quote;
 import com.quarkushackfest.team6.repository.QuoteMongoReactiveRepository;
 import io.quarkus.runtime.StartupEvent;
-import io.smallrye.mutiny.Multi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,9 +12,6 @@ import javax.inject.Inject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -36,14 +32,15 @@ public class QuoteDataLoader {
             var bufferedReader =
                     new BufferedReader(
                             new InputStreamReader(getClass().getClassLoader().getResourceAsStream("pg2000.txt")));
-            bufferedReader
-                    .lines()
-                    .filter(l -> !l.trim().isEmpty())
-                    .flatMap(l -> {
-                        new Quote(idSupplier.get(), "El Quijote", l).persist().await().indefinitely();
-                        return Arrays.asList("success").stream();
-                    })
-                    .collect(Collectors.toList());
+            quoteMongoReactiveRepository.persist(
+                    bufferedReader
+                            .lines()
+                            .filter(l -> !l.trim().isEmpty())
+                            .map(l -> {
+                                return new Quote(idSupplier.get(), "El Quijote", l);
+                            })
+                            .collect(Collectors.toList())
+            ).await().indefinitely();
             try {
                 bufferedReader.close();
             } catch (IOException e) {
@@ -58,6 +55,7 @@ public class QuoteDataLoader {
     private Supplier<String> getIdSequenceSupplier() {
         return new Supplier<>() {
             Long l = 0L;
+
             @Override
             public String get() {
                 // adds padding zeroes

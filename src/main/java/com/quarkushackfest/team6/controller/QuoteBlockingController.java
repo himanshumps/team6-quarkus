@@ -22,6 +22,7 @@ public class QuoteBlockingController {
 
     /**
      * Get all the documents using blocking api call
+     *
      * @return
      */
     @GET
@@ -34,6 +35,7 @@ public class QuoteBlockingController {
 
     /**
      * Get all the documents in pages using blocking api call
+     *
      * @return
      */
     @GET
