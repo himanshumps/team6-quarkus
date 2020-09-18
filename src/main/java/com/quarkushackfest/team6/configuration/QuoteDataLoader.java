@@ -3,6 +3,8 @@ package com.quarkushackfest.team6.configuration;
 import com.quarkushackfest.team6.domain.Quote;
 import com.quarkushackfest.team6.repository.QuoteMongoReactiveRepository;
 import io.quarkus.runtime.StartupEvent;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +14,7 @@ import javax.inject.Inject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -31,21 +34,34 @@ public class QuoteDataLoader {
             var idSupplier = getIdSequenceSupplier();
             var bufferedReader =
                     new BufferedReader(
-                            new InputStreamReader(getClass().getClassLoader().getResourceAsStream("pg2000.txt")));
-            quoteMongoReactiveRepository.persist(
-                    bufferedReader
-                            .lines()
-                            .filter(l -> !l.trim().isEmpty())
-                            .map(l -> {
-                                return new Quote(idSupplier.get(), "El Quijote", l);
-                            })
-                            .collect(Collectors.toList())
-            ).await().indefinitely();
+                            new InputStreamReader(getClass().getClassLoader().getResourceAsStream("pg1000.json")));
+            var stringBuilder = new StringBuilder();
+            String line = null;
+            String ls = System.getProperty("line.separator");
+            while (true) {
+                try {
+                    if ((line = bufferedReader.readLine()) == null) break;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                stringBuilder.append(line);
+                stringBuilder.append(ls);
+            }
             try {
                 bufferedReader.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            quoteMongoReactiveRepository.persist(
+                    new JsonArray(
+                            stringBuilder.toString())
+                            .stream()
+                            .map(l -> new JsonObject((Map) l))
+                            .map(jsonObject -> new Quote(idSupplier.get(), jsonObject.getString("Title"), jsonObject.getString("Plot")))
+                            .collect(Collectors.toList()
+                            )
+            ).await().indefinitely();
+
             log.info("Repository contains now {} entries.", quoteMongoReactiveRepository.count().await().indefinitely().intValue());
         } else {
             log.info("Data is already loaded in the database.");
