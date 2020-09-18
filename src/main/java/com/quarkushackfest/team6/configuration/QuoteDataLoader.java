@@ -43,7 +43,7 @@ public class QuoteDataLoader {
                         new Quote(idSupplier.get(), "El Quijote", l).persist().await().indefinitely();
                         return Arrays.asList("success").stream();
                     })
-                    .collect(Collectors.toList())
+                    .collect(Collectors.toList());
             try {
                 bufferedReader.close();
             } catch (IOException e) {
