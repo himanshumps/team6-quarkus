@@ -4,6 +4,7 @@ import com.quarkushackfest.team6.domain.Quote;
 import com.quarkushackfest.team6.repository.QuoteMongoReactiveRepository;
 import io.quarkus.panache.common.Page;
 import io.smallrye.mutiny.Multi;
+import org.jboss.resteasy.annotations.SseElementType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +35,7 @@ public class QuoteReactiveController {
     @Path("quotes-reactive")
     @PermitAll
     @Produces(MediaType.SERVER_SENT_EVENTS)
+    @SseElementType(MediaType.APPLICATION_JSON)
     public Multi<Quote> getQuoteMulti() {
         log.info("Serving the request for getQuoteMulti");
         return quoteMongoReactiveRepository
@@ -50,6 +52,7 @@ public class QuoteReactiveController {
     @Path("quotes-reactive-paged")
     @PermitAll
     @Produces(MediaType.SERVER_SENT_EVENTS)
+    @SseElementType(MediaType.APPLICATION_JSON)
     public Multi<Quote> getQuoteMultiPaged(
             final @QueryParam("page") int page,
             final @QueryParam("size") int size) {
