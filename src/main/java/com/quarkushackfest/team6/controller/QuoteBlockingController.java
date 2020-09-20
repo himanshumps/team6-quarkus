@@ -12,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -42,10 +43,10 @@ public class QuoteBlockingController {
     @Path("quotes-blocking-paged")
     @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
-    public PanacheQuery<Quote> getQuotesBlocking(
+    public List<Quote> getQuotesBlocking(
             final @QueryParam("page") int page,
             final @QueryParam("size") int size
     ) throws Exception {
-        return quoteMongoBlockingRepository.findAllByIdNotNullOrderByIdAsc(Page.of(page, size));
+        return quoteMongoBlockingRepository.findAllByIdNotNullOrderByIdAsc().page(Page.of(page, size)).list();
     }
 }
