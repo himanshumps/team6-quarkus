@@ -1,36 +1,26 @@
 package com.quarkushackfest.team6.configuration;
 
-import com.quarkushackfest.team6.domain.Quote;
-import com.quarkushackfest.team6.repository.QuoteMongoReactiveRepository;
 import io.quarkus.runtime.StartupEvent;
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
-import javax.inject.Inject;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Map;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class QuoteDataLoader {
 
+/*
     private static final Logger log = LoggerFactory.getLogger(QuoteDataLoader.class);
+*/
 
-    @Inject
-    QuoteMongoReactiveRepository quoteMongoReactiveRepository;
+    /*@Inject
+    QuoteMongoReactiveRepository quoteMongoReactiveRepository;*/
 
     void run(@Observes StartupEvent ev) {
-        log.info("Starting the application ...");
+        System.out.println("Starting the application ...");
         // If there is no data in the database
 
-        if (System.getenv("NATIVE") == null && quoteMongoReactiveRepository.count().await().indefinitely().intValue() == 0) {
+        /*if (System.getenv("NATIVE") == null && quoteMongoReactiveRepository.count().await().indefinitely().intValue() == 0) {
             var idSupplier = getIdSequenceSupplier();
             var bufferedReader =
                     new BufferedReader(
@@ -66,7 +56,7 @@ public class QuoteDataLoader {
             log.info("Repository contains now {} entries.", quoteMongoReactiveRepository.count().await().indefinitely().intValue());
         } else {
             log.info("Data is already loaded in the database.");
-        }
+        }*/
     }
 
     private Supplier<String> getIdSequenceSupplier() {
